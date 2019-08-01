@@ -44,5 +44,3 @@ microtask主要包含：Promise.then、MutaionObserver、process.nextTick(Node.j
 
 由于因为async await 本身就是promise+generator的语法糖。所以await后面的代码是microtask。所以对于本题中的
 
-
-### 
