@@ -37,7 +37,7 @@ then方法可以接受两个回调函数作为参数，第一个回调函数是p
 
 
 Promise新建后就会立即执行。
-```
+```js
 let promise = new Promise(function(resolve, reject) {
   console.log('Promise');
   resolve();
@@ -54,7 +54,7 @@ console.log('Hi!');
 // resolved
 ```
 
-```
+```js
 const getJSON = function(url) {
   const promise = new Promise(function(resolve, reject){
     const handler = function() {
@@ -87,7 +87,7 @@ getJSON("/posts.json").then(function(json) {
 ```
 
 注意，这时p1的状态就会传递给p2，也就是说，p1的状态决定了p2的状态。如果p1的状态是pending，那么p2的回调函数就会等待p1的状态改变；如果p1的状态已经是resolved或者rejected，那么p2的回调函数将会立刻执
-```
+```js
 const p1 = new Promise(function (resolve, reject) {
   // ...
 });
@@ -97,7 +97,7 @@ const p2 = new Promise(function (resolve, reject) {
   resolve(p1);
 })
 ```
-```
+```js
 const p1 = new Promise(function (resolve, reject) {
   setTimeout(() => reject(new Error('fail')), 3000)
 })
@@ -112,7 +112,7 @@ p2
 // Error: fail
 ```
 上面代码中，p1是一个 Promise，3 秒之后变为rejected。p2的状态在 1 秒之后改变，resolve方法返回的是p1。由于p2返回的是另一个 Promise，导致p2自己的状态无效了，由p1的状态决定p2的状态。所以，后面的then语句都变成针对后者（p1）。又过了 2 秒，p1变为rejected，导致触发catch方法指定的回调函数。
-```
+```js
 new Promise((resolve, reject) => {
   resolve(1);
   console.log(2);
@@ -133,7 +133,7 @@ Promise.prototype.catch()
 
 resolve语句后面在抛出错误，不会被捕获，等于没抛出，因为promise的状态一旦改变，就永久保持该状态，不会再改变了  
 
-```
+```js
 // bad
 promise
   .then(function(data) {
@@ -153,7 +153,7 @@ promise
 ```
 above 代码中，第二种写法好于第一种写法，理由是第二种写法可以捕获前面then方法中执行的错误，也更接近同步的写法，因此，建议总是使用catch方法，而不使用then方法的第二个参数。
 
-```
+```js
 const someAsyncThing = function() {
   return new Promise(function(resolve, reject) {
     // 下面一行会报错，因为x没有声明
@@ -175,7 +175,7 @@ setTimeout(() => { console.log(123) }, 2000);
   #### Promise 内部的错误不会影响到 Promise 外部的代码，通俗的说法就是“Promise 会吃掉错误”
 #### Promise 对象后面要跟catch方法，这样可以处理 Promise 内部发生的错误。catch方法返回的还是一个 Promise 对象，因此后面还可以接着调用then方法。
 
-```
+```js
 const someAsyncThing = function() {
   return new Promise(function(resolve, reject) {
     // 下面一行会报错，因为x没有声明
@@ -199,7 +199,7 @@ finally方法用于指定不管promise对象最后状态如何，都会执行操
 finally方法的回调函数不接受任何参数，这意味着没有办法知道，前面的 Promise 状态到底是fulfilled还是rejected。这表明，finally方法里面的操作，应该是与状态无关的，不依赖于 Promise 的执行结果  
 finally本质上是then方法的特例。
 
-```
+```js
 promise
 .finally(() => {
   // 语句
@@ -218,7 +218,7 @@ promise
   }
 );
 ```
-```
+```js
 Promise.prototype.finally = function (callback) {
   let P = this.constructor;
   return this.then(
@@ -250,7 +250,7 @@ promise.race方法同样是将多个promise实例，包装成一个新的promise
 ### Promise.resolve()
 
 将现有的对象转为promise对象，promise.resolve()方法就起到这个作用。
-```
+```js
 Promise.resolve('foo')
 // 等价于
 new Promise(resolve => resolve('foo'))
@@ -260,7 +260,7 @@ new Promise(resolve => resolve('foo'))
 如果参数是 Promise 实例，那么Promise.resolve将不做任何修改、原封不动地返回这个实例。  
 
 2）参数是一个thenable对象
-```
+```js
 let thenable = {
   then: function(resolve, reject) {
     resolve(42);
@@ -275,7 +275,7 @@ p1.then(function(value) {
 3）参数不是具有then方法的对象，或根本就不是对象    
 
 如果参数是一个原始值，或者是一个不具有then方法的对象，则Promise.resolve方法返回一个新的 Promise 对象，状态为resolved。
-```
+```js
 const p = Promise.resolve('Hello');
 
 p.then(function (s){
@@ -291,7 +291,7 @@ Promise.resolve()方法允许调用时不带参数，直接返回一个resolved�
 
 需要注意的是，立即resolve()的 Promise 对象，是在本轮“事件循环”（event loop）的结束时执行，而不是在下一轮“事件循环”的开始时。
 
-```
+```js
 setTimeout(function () {
   console.log('three');
 }, 0);
@@ -309,7 +309,7 @@ console.log('one');
 
 ### Promise.reject()  
 Promise.reject(reason)方法也会返回一个新的 Promise 实例，该实例的状态为rejected。  
-```
+```js
 const p = Promise.reject('出错了');
 // 等同于
 const p = new Promise((resolve, reject) => reject('出错了'))
@@ -320,7 +320,7 @@ p.then(null, function (s) {
 // 出错了
 ```
 
-```
+```js
 const thenable = {
   then(resolve, reject) {
     reject('出错了');
