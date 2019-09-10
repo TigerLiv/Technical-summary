@@ -1,4 +1,4 @@
-```
+```js
 function processTreeData(obj) {
    const keys = Object.keys(obj);
    const result = [];
@@ -36,4 +36,26 @@ function processTreeData(obj) {
    });
    return result;
  } 
+```
+
+
+```js
+function treeToList(tree) {
+  var queen = [];
+  var out = [];
+  queen = queen.concat(tree);
+  while(queen.length) {
+      var first = queen.shift();
+    if (first.children) {
+        queen = queen.concat(first.children)
+      delete first['children'];
+    }
+    
+    out.push(first);
+  }
+  return out;
+}
+
+var tree = [{"id":1,"pid":"-1","children":[{"id":11,"pid":"1","children":[]},{"id":12,"pid":"1","children":[]}]}];
+treeToList(tree) //[{"id":1,"pid":"-1"},{"id":11,"pid":"1"},{"id":12,"pid":"1"}]
 ```
