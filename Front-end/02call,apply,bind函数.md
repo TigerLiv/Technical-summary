@@ -92,13 +92,13 @@ Function.prototype.call=function (context){
 }
 ```
 
-
 ```javascript
 Function.prototype.call=function (context) {
     var context=context||this;
     context.fn=this;
 
     var args=[];
+    //不定长参数
     for( var i = 0,len=arguments.length; i < len; i++){
         args.push('arguments['+i+']');
     }
