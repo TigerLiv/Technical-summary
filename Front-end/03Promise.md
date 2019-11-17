@@ -10,7 +10,7 @@ Promise对象有以下两个特点：
 
 Promise也有一些缺点，首先，无法取消promise，一旦新建它就会立即执行，无法中途取消，其次，如果不设置回调函数，promise内部抛出的错误，不会反映到外部，第三，当处于pending状态时，无法得知目前进展到哪一个阶段。  
 
-```
+```js
 const promise= new Promise(function (resolve,reject){
     if('异步成功'){
         resolve()
@@ -25,7 +25,7 @@ Promise构造函数接受一个函数作为参数，该函数的两个参数分�
 resolve函数的作用，将Promise对象的状态从未完成变为成功，在异步操作成功时调用，并将异步操作的结果，作为参数传递出去。reject同理。
 
 Promise实例生成以后，可以用then方法分别指定resolved状态和rejected状态的回调函数。
-```
+```js
 promise.then(function (value){
 //success
 },function (error){

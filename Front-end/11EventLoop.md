@@ -42,5 +42,5 @@ microtask主要包含：Promise.then、MutaionObserver、process.nextTick(Node.j
 
 很多人以为await会一直等待之后的表达式执行完之后才会继续执行后面的代码，实际上await是一个让出线程的标志。**await后面的表达式会先执行一遍，将await后面的代码加入到microtask中，然后就会跳出整个async函数来执行后面的代码**
 
-由于因为async await 本身就是promise+generator的语法糖。所以await后面的代码是microtask。所以对于本题中的
+由于因为async await 本身就是promise+generator的语法糖。所以await后面的代码是microtask。
 
