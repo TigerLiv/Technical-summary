@@ -1,0 +1,65 @@
+## 简介
+
+支持海量高并发  
+
+内存消耗较少  
+
+免费使用  
+
+配置文件简单
+
+## 常用命令
+
+/usr/local/etc/nginx   
+
+ps aux | grep nginx  
+
+nginx -s stop  reload  
+
+nginx -s quit // 从容停止
+
+nginx -s stop //立即停止  
+
+killall nginx // 杀死所有  
+
+netstat -tlnp // 查看端口号  
+
+### 权限访问
+
+deny 字段 禁止访问的IP  
+
+allow  允许访问的  
+
+权限是从上往下执行的（注意书写顺序）  
+
+location ~\.js$   匹配正则  
+
+### 反向代理  
+
+为服务端做代理  
+```
+location /{
+    proxy_pass IP;
+}
+```
+
+#### 移动端和PC端适配  
+
+```
+location /{
+    root PC;
+    if($http_user_agent ~* 'Android|iPhone'){  // and so on
+        root MOBILE
+    }
+    index index.html
+}
+```
+
+#### Gzip
+```
+gzip:on
+gzip_types text/plain application/javascript text/css; //压缩类型 
+```
+
+
+
