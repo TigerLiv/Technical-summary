@@ -1,0 +1,62 @@
+探究React Context
+
+React Context是react 16中引入的一个强大的功能。它可以从你的组件的render方法中访问当前的上下文。通常情况下，你只能访问到局部的状态和props。React Context使用非常灵活，可以在组件之间共享值。
+
+
+React Context与useState()钩子类似，但是它允许一次在多个组件之间共享数据。先看一下一段代码,A是组件，B是子组件：
+
+```js
+const AComponent = () => {
+    const [counter, setCounter] = React.useState(0)
+
+    return (
+        <BComponent
+            counter={counter}
+            onIncrement={() => setCounter(counter + 1)}
+        />
+    )
+}
+
+const BComponent = ({ counter, onIncrement }) => {
+    return (
+        <div>
+            {counter}<button onClick={onIncrement}>increment</button>
+        </div>
+    )
+}
+```
+在这里，我们有一个<AComponent>以初始值设置自己的本地状态的0。组件正在渲染a <BComponent />，它正在接收当前counter状态作为prop。单击增量按钮时，它还会更新父级的计数器状态。
+
+当我们需要在组件之间共享更多的状态，继续使用这种方式会使组件变得越来越耦合，增加维护成本。
+
+So,我们使用React Context API来解决这个问题，无需传递Props
+```js
+const CounterContext = React.createContext(0)
+
+const AComponent = () => {
+    const [counter, setCounter] = React.useState(0)
+
+    const increment = () => setCounter(counter + 1)
+
+    return (
+        <CounterContext.Provider value={{ counter, increment }}>
+            <BComponent />
+        </CounterContext.Provider>
+    )
+}
+
+const BComponent = () => {
+    const { counter, increment } = React.useContext(CounterContext)
+
+    return (
+        <div>
+            {counter}
+            <button onClick={() => increment()}>increment</button>
+        </div>
+    )
+}
+```
+
+那React Context和useState有什么区别？
+
+主要有两个区别，Context API允许一次在多个组件共享状态，而useState钩子的作用范围仅在单一组件。另一个区别是Context API可以共享任何类型的数据，不仅仅是状态
